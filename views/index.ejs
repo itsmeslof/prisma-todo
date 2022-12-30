@@ -8,12 +8,24 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
-    <br />
+    <% if (messages.error) { %>
+        <h1 class="error-msg"><%= messages.error %></h1>
+    <% } %>
+
+    <% if (messages.success) { %>
+        <h1 class="success-msg"><%= messages.success %></h1>
+    <% } %>
+
+    <hr />
+
     <% todos.forEach((todo) => { %>
         <p><%= todo.name %></p>
     <% }); %>
     <div>
-
+        <form action="/" method="POST">
+            <input type="text" placeholder="Todo description" name="name">
+            <button type="submit">Add Todo</button>
+        </form>
     </div>
   </body>
 </html>

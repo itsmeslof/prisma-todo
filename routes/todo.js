@@ -31,7 +31,7 @@ router.post("/", async function (req, res, next) {
 
 router.patch("/:id", async function (req, res, next) {
   let todo = {};
-  const complete = req.body.complete === "0"; // this is nasty D: I should fix this
+  const complete = !!+req.body.complete; // this is *still* nasty D: I should fix this with proper validation
   try {
     todo = await prisma.todo.update({
       where: {

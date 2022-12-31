@@ -31,13 +31,14 @@ router.post("/", async function (req, res, next) {
 
 router.patch("/:id", async function (req, res, next) {
   let todo = {};
+  const complete = req.body.complete === "0"; // this is nasty D: I should fix this
   try {
     todo = await prisma.todo.update({
       where: {
         id: +req.params.id,
       },
       data: {
-        complete: req.body.complete === "1",
+        complete: complete,
       },
     });
   } catch (e) {

@@ -3,29 +3,46 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+            
+    <div class="flex items-center justify-between">
+        <h1 class="font-bold text-2xl"><%= title %> Todo</h1>
+        <form action="/" method="POST" class="flex space-x-4">
+            <input type="text" placeholder="Todo description" name="name" class="min-w-[300px] px-3 py-2 border border-gray-400 rounded-md">
+            <button type="submit" class="bg-gray-300 border border-gray-400 hover:bg-gray-200 active:bg-gray-400 px-6 py-0 rounded-md text-center">Create Todo</button>
+        </form>
+    </div>
+
+    <hr class="my-10" />
 
     <% if (messages.error) { %>
-        <h1 class="error-msg"><%= messages.error %></h1>
+        <h1 class="text-rose-700 mb-10"><%= messages.error %></h1>
     <% } %>
-
+        
     <% if (messages.success) { %>
-        <h1 class="success-msg"><%= messages.success %></h1>
+        <h1 class="text-emerald-700 mb-10"><%= messages.success %></h1>
     <% } %>
 
-    <hr />
+    <div class="grid grid-cols-4 gap-4">
 
-    <% todos.forEach((todo) => { %>
-        <p><%= todo.name %></p>
-    <% }); %>
-    <div>
-        <form action="/" method="POST">
-            <input type="text" placeholder="Todo description" name="name">
-            <button type="submit">Add Todo</button>
-        </form>
+        <% todos.forEach((todo) => { %>
+            <div class="bg-gray-100 border border-gray-300 drop-shadow-sm py-5 px-5 flex items-center justify-between">
+                <p class="text-md"><%= todo.name %></p>
+                <% if (todo.complete) { %>
+                    <form action="/todo/<%= todo.id %>?_method=PATCH" method="POST">
+                        <input type="hidden" name="complete" value="0">
+                        <button type="submit" class="bg-rose-300 border border-rose-400 hover:bg-rose-200 active:bg-rose-400 px-3 py-0 rounded-md text-center">Mark Incomplete</button>
+                    </form>
+                <% } else { %>
+                    <form action="/todo/<%= todo.id %>?_method=PATCH" method="POST">
+                        <input type="hidden" name="complete" value="1">
+                        <button type="submit" class="bg-emerald-300 border border-emerald-400 hover:bg-emerald-200 active:bg-emerald-400 px-3 py-0 rounded-md text-center">Mark Complete</button>
+                    </form>
+                <% } %>
+            </div>
+        <% }); %>
     </div>
   </body>
 </html>

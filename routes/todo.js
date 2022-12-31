@@ -42,8 +42,7 @@ router.patch("/:id", async function (req, res, next) {
       },
     });
   } catch (e) {
-    req.flash("error", "There was an error updating the todo :(");
-    res.redirect("/");
+    next(e);
     return;
   }
 

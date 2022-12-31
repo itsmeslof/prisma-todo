@@ -11,6 +11,12 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var todoRouter = require("./routes/todo");
 
+const {
+  isPrismaClientError,
+  handlePrismaClientError,
+  errorMessages,
+} = require("./errors");
+
 var sessionStore = new session.MemoryStore();
 
 var app = express();
@@ -42,11 +48,16 @@ app.use("/todo", todoRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  next(createError(404, errorMessages[404]));
 });
 
 // error handler
 app.use(function (err, req, res, next) {
+  if (isPrismaClientError(err)) {
+    handlePrismaClientError(err, req, res, next);
+    return;
+  }
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

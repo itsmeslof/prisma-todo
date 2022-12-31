@@ -27,6 +27,13 @@
 
     <div class="grid grid-cols-4 gap-4">
 
+        <div class="bg-gray-100 border border-gray-300 drop-shadow-sm py-5 px-5 flex items-center justify-between">
+            <p class="text-md">THIS TODO DOESN'T EXIST. ID: 500000</p>
+                <form action="/todo/500000?_method=PATCH" method="POST">
+                    <input type="hidden" name="complete" value="0">
+                    <button type="submit" class="bg-emerald-300 border border-emerald-400 hover:bg-emerald-200 active:bg-emerald-400 px-3 py-0 rounded-md text-center">Mark Complete</button>
+                </form>
+        </div>
         <% todos.forEach((todo) => { %>
             <div class="bg-gray-100 border border-gray-300 drop-shadow-sm py-5 px-5 flex items-center justify-between">
                 <p class="text-md"><%= todo.name %></p>

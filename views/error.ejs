@@ -1,3 +1,19 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+</head>
+<body class="bg-gray-900">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="flex flex-col items-center space-y-6">
+            <h1 class="text-white text-2xl font-bold"><%= message %></h1>
+            <a href="/" class="bg-gray-700 text-white border border-gray-600 hover:bg-gray-600 active:bg-gray-500 px-6 py-0 rounded-md text-center">Back Home</a>
+        </div>
+    </div>
+</body>
+</html>

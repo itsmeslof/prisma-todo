@@ -34,6 +34,13 @@
                     <button type="submit" class="bg-emerald-300 border border-emerald-400 hover:bg-emerald-200 active:bg-emerald-400 px-3 py-0 rounded-md text-center">Mark Complete</button>
                 </form>
         </div>
+        <div class="bg-gray-100 border border-gray-300 drop-shadow-sm py-5 px-5 flex items-center justify-between">
+            <p class="text-md">This todo passes a string instead of an int, failing validation</p>
+                <form action="/todo/test?_method=PATCH" method="POST">
+                    <input type="hidden" name="complete" value="0">
+                    <button type="submit" class="bg-emerald-300 border border-emerald-400 hover:bg-emerald-200 active:bg-emerald-400 px-3 py-0 rounded-md text-center">Mark Complete</button>
+                </form>
+        </div>
         <% todos.forEach((todo) => { %>
             <div class="bg-gray-100 border border-gray-300 drop-shadow-sm py-5 px-5 flex items-center justify-between">
                 <p class="text-md"><%= todo.name %></p>

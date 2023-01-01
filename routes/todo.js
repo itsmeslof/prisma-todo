@@ -41,8 +41,8 @@ router.patch("/:id", async function (req, res, next) {
         complete: complete,
       },
     });
-  } catch (e) {
-    next(e);
+  } catch (err) {
+    next(err);
     return;
   }
 

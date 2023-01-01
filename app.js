@@ -7,15 +7,11 @@ var session = require("express-session");
 var flash = require("express-flash");
 var methodOverride = require("method-override");
 
+var prismaErrorHandler = require("./errors/prisma");
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var todoRouter = require("./routes/todo");
-
-const {
-  isPrismaClientError,
-  handlePrismaClientError,
-  errorMessages,
-} = require("./errors");
 
 var sessionStore = new session.MemoryStore();
 
@@ -48,13 +44,17 @@ app.use("/todo", todoRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404, errorMessages[404]));
+  next(createError(404));
 });
 
+app.use(prismaErrorHandler);
+
 // error handler
+// TODO: create a global errorHandler to handle specific cases, clean up this file a bit.
 app.use(function (err, req, res, next) {
-  if (isPrismaClientError(err)) {
-    handlePrismaClientError(err, req, res, next);
+  if (err.status === 404) {
+    res.status(404);
+    res.render("404");
     return;
   }
 
@@ -64,7 +64,9 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render("error", {
+    message: err.message || "An unhandled server error occured :(",
+  });
 });
 
 module.exports = app;

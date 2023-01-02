@@ -50,4 +50,20 @@ router.patch("/:id", async function (req, res, next) {
   res.redirect("/");
 });
 
+router.delete("/:id", async function (req, res, next) {
+  try {
+    await prisma.todo.delete({
+      where: {
+        id: +req.params.id,
+      },
+    });
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  req.flash("success", "Todo deleted!");
+  res.redirect("/");
+});
+
 module.exports = router;

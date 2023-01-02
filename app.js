@@ -8,6 +8,7 @@ var flash = require("express-flash");
 var methodOverride = require("method-override");
 
 var prismaErrorHandler = require("./errors/prisma");
+var errorHandler = require("./errors/handler");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -48,25 +49,6 @@ app.use(function (req, res, next) {
 });
 
 app.use(prismaErrorHandler);
-
-// error handler
-// TODO: create a global errorHandler to handle specific cases, clean up this file a bit.
-app.use(function (err, req, res, next) {
-  if (err.status === 404) {
-    res.status(404);
-    res.render("404");
-    return;
-  }
-
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error", {
-    message: err.message || "An unhandled server error occured :(",
-  });
-});
+app.use(errorHandler);
 
 module.exports = app;
